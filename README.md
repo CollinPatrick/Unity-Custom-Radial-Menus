@@ -245,6 +245,7 @@ public void GenerateRadialMenu() {
 ```
 To get the current selections, just call ``GetSelection()`` or ``GetSelections()``
 ```c#
+List<string> selection;
 selection = _radialMenu.GetSelection(); //1-Section1
 radialMenu.SelectSection( "Group1", "1-Section2" );
 selection = _radialMenu.GetSelection(); //1-Section2
