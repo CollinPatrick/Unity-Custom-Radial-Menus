@@ -199,3 +199,68 @@ Create customizable dynamic radial menus in Unity.
   public Image | displayImage | The icon inside this section. The sprite will automatically be set and centered inside the section.
   </details>
 
+## Example
+99% of the radial menu can be built inside the RadialMenu component without any extra code, but the radial menu does support adding and removing sections programmically as well.
+  
+To determine the direction of the menu selection, all you have to do is set the ``selectDirection`` variable inside the RadialMenu object. Everything else is handled automatically. The following code will handle the direction calculation for the mouse and controllers. For controllers, just input the direction axis from a stick.
+```c#
+public void SetInputDirection( Vector2 aDirection, bool aControllerInput ) {
+    if ( aControllerInput ) {
+        radialMenu.selectDirection = aDirection;
+    }
+    else {
+        radialMenu.selectDirection = ( Input.mousePosition - new Vector3( Screen.width / 2, Screen.height / 2 ) - Vector3.zero ).normalized;
+    }
+}
+```
+
+  
+To create the radial menu programmatically, all you have to do is create each group and their sections then add them to the menu.
+```c#
+public void GenerateRadialMenu() {
+    //Create and populate group 1
+    RadialMenu.RadialMenuGroup lGroup1 = new RadialMenu.RadialMenuGroup( "Group1", 180 );
+    for ( int i = 1; i <= 3; i++ ) {
+        RadialMenu.RadialMenuSection lSection = new RadialMenu.RadialMenuSection( "1-Section" + i, iconSprite, Vector2.zero, Color.white );
+        lGroup1.AddSection( lSection );
+    }
+
+    //Create and populate group 2
+    RadialMenu.RadialMenuGroup lGroup2 = new RadialMenu.RadialMenuGroup( "Group2", 180, 2 );
+    for ( int i = 1; i <= 5; i++ ) {
+        RadialMenu.RadialMenuSection lSection = new RadialMenu.RadialMenuSection( "2-Section" + i, iconSprite, Vector2.zero, Color.white );
+        lGroup2.AddSection( lSection );
+    }
+
+    //Add the groups to the radial menu
+    radialMenu.AddGroup( lGroup1 );
+    radialMenu.AddGroup( lGroup2 );
+
+    //Build the menu
+    radialMenu.BuildMenu();
+
+    //Automatically select the first section.
+    radialMenu.SelectSection( "Group1", "Section1" );
+}
+```
+To get the current selections, just call ``GetSelection()`` or ``GetSelections()``
+```c#
+selection = _radialMenu.GetSelection(); //1-Section1
+radialMenu.SelectSection( "Group1", "1-Section2" );
+selection = _radialMenu.GetSelection(); //1-Section2
+radialMenu.SelectSection( "Group2", "2-Section2" );
+selection = _radialMenu.GetSelection(); //1-Section2, 2-Section2
+radialMenu.SelectSection( "Group2", "2-Section5" );
+selection = _radialMenu.GetSelection(); //1-Section2, 2-Section2, 2-Section5
+
+Dictionary<string, List<string>> selections = radialMenu.GetSelections(); // Group1{1-Section2}, Group2{2-Section2, 2-Section5}
+
+radialMenu.SelectSection( "Group2", "2-Selection2" ); //The selection is toggled when multiple selections are allowed.
+List<string> selection = _radialMenu.GetSelection(); //1-Section2, 2-Section5
+```
+Realistically, if you were constructing this menu for something like an inventory, the section key would be the name or id of the object in the players inventory. When you get the selection string, you would use that to figure out what was actually selected. 
+  
+## Tips
+* All prefabs are instatntiated at the 0,0,0 coordinate of the root game object.
+  * If you are using the fill clip method, make sure the pivot is at the center of the prefab.
+  * If you are using the override prefab method, make sure the pivot is at 0,0,0 and the UI elements are moved to the disired radius distance of the menu. 
