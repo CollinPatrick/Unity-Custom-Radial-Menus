@@ -246,18 +246,18 @@ public void GenerateRadialMenu() {
 To get the current selections, just call ``GetSelection()`` or ``GetSelections()``
 ```c#
 List<string> selection;
-selection = _radialMenu.GetSelection(); //1-Section1
+selection = radialMenu.GetSelection(); //1-Section1
 radialMenu.SelectSection( "Group1", "1-Section2" );
-selection = _radialMenu.GetSelection(); //1-Section2
+selection = radialMenu.GetSelection(); //1-Section2
 radialMenu.SelectSection( "Group2", "2-Section2" );
-selection = _radialMenu.GetSelection(); //1-Section2, 2-Section2
+selection = radialMenu.GetSelection(); //1-Section2, 2-Section2
 radialMenu.SelectSection( "Group2", "2-Section5" );
-selection = _radialMenu.GetSelection(); //1-Section2, 2-Section2, 2-Section5
+selection = radialMenu.GetSelection(); //1-Section2, 2-Section2, 2-Section5
 
 Dictionary<string, List<string>> selections = radialMenu.GetSelections(); // Group1{1-Section2}, Group2{2-Section2, 2-Section5}
 
 radialMenu.SelectSection( "Group2", "2-Selection2" ); //The selection is toggled when multiple selections are allowed.
-List<string> selection = _radialMenu.GetSelection(); //1-Section2, 2-Section5
+List<string> selection = radialMenu.GetSelection(); //1-Section2, 2-Section5
 ```
 Realistically, if you were constructing this menu for something like an inventory, the section key would be the name or id of the object in the players inventory. When you get the selection string, you would use that to figure out what was actually selected. 
   
