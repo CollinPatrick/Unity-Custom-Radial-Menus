@@ -2,7 +2,7 @@
 Create customizable dynamic radial menus in Unity.
 
 ## RadialMenu
-**RadialMenu** is a monobehavior class that wraps the classes **RadialMenuGroup** and **RadialMenuSection**.
+**RadialMenu** is a monobehavior class that wraps the classes **RadialMenuGroup** and **RadialMenuSection**, and handles the generation and selections of the menu.
 
 <details>
   <summary>Editor Variables</summary>
@@ -110,3 +110,92 @@ Create customizable dynamic radial menus in Unity.
   void | AddSection(RadialMenuSection aSection) | Adds a section to the end of the group.
   void | AddSection(RadialMenuSection aSection, int aIndex) | Adds a section to the group at a specified index.
  </details>
+    
+  ## RadialMenu.RadialMenuSection
+**RadialMenuGroup** is a serialized class that defines the functionality of a radial menu section.
+
+<details>
+  <summary>Constructors</summary>
+
+  ```c#
+  new RadialMenuSection( string aKey );
+  ```
+  ```c#
+  new RadialMenuSection( string aKey, Sprite aSprite, bool aRepositionSprite = true );
+  ```
+  ```c#
+  new RadialMenuSection( string aKey, Sprite aSprite, Vector2 aSpriteSize, bool aRepositionSprite = true );
+  ```
+  ```c#
+  new RadialMenuSection( string aKey, Sprite aSprite, Vector2 aSpriteSize, Color aSpriteColor, bool aRepositionSprite = true );
+  ```
+  </details>
+  
+<details>
+  <summary>Editor Variables</summary>
+  
+  Type | Name | Summary
+  ---- | ---- | -------
+  private string | sectionKey | A unique key to identify this selection inside its group.
+  private Sprite | displaySprite | The sprite to display for this section.
+  private Vector2 | spriteSize | The size of the display sprite.
+  private Color | spriteColor | The color of the display sprite.
+  public bool | repositionSprite | Should the sprite be repositioned to the center of the section along the circumference of the menu.
+  public UnityEvent<string, string> | OnSelect | An event that fires when the section is selected with the group and section key.
+  public UnityEvent<string, string> | OnDeselect | An event that fires when the section is deselected with the group and section key.
+  </details>
+  
+  <details>
+
+  <summary>Readonly Variables</summary>
+  
+  Type | Name | Summary
+  ---- | ---- | -------
+  public string | sectionKey | A unique key to identify this selection inside its group.
+  public bool | selected | Is this section currently selected?
+  public bool | hovered | Is this section currently being hovered?
+  public Sprite | displaySprite | The sprite to display for this section.
+  public Vector2 | spriteSize | The size of the display sprite.
+  public Color | spriteColor | The color of the display sprite.
+  public float | startDegree | The degree this section starts.
+  public float | endDegree | The degree this section ends.
+  </details>
+
+<details>
+  <summary>Public Methods</summary>
+  
+  Return Type | Method | Summary
+  ----------- | ------ | -------
+  void | UpdateSprite | Updates the sprite, sprite size, and sprite color to the current settings.
+  void | Select(string aGroupKey) | Select this section.
+  void | Deselect(string aGroupKey) | Deselects this section.
+  void | SetSprite(Sprite aSprite, Vector2 aSize) | Sets the section's sprite with the supplied size.
+  void | SetSprite(Sprite aSprite, Vector2 aSize, Color aColor) | Sets the section's sprite with the supplied size and color.
+ </details>
+  
+## RadialMenuSectionObject
+**RadialMenuSectionObject** is a Monobehavior class that is attched to the section prefab. This class stores references to UI dependencies and handles hover and selection effects.
+
+  <details>
+  <summary>Editor Variables</summary>
+  
+  Type | Name | Summary
+  ---- | ---- | -------
+  private Image | backgroundImage | The background image of this section. The sprite radial fill will be applied to this image.
+  private Image | displayImage | The icon inside this section. The sprite will automatically be set and centered inside the section.
+  private GameObject | selectedOverlay | An overlay object that is enabled when the section is selected.
+  private Color | selectedColor | The color of the selected overlay.
+  private GameObject | hoverOverlay | An overlay object that is enabled when the section is hovered.
+  private Color | hoverColor | The color of the hover overlay.
+  </details>
+  
+  <details>
+
+  <summary>Readonly Variables</summary>
+  
+  Type | Name | Summary
+  ---- | ---- | -------
+  public Image | backgroundImage | The background image of this section. The sprite radial fill will be applied to this image.
+  public Image | displayImage | The icon inside this section. The sprite will automatically be set and centered inside the section.
+  </details>
+
