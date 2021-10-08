@@ -213,7 +213,7 @@ public void SetInputDirection( Vector2 aDirection, bool aControllerInput ) {
     }
 }
 ```
-
+To make a selection inside the radial menu, just call ``SelectHoveredSection()`` inside the RadialMenu object. 
   
 To create the radial menu programmatically, all you have to do is create each group and their sections then add them to the menu.
 ```c#
